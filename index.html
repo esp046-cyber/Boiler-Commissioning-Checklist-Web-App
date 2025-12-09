@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boiler Commissioning Checklist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">Boiler Commissioning Checklist</h1>
+                <div class="header-actions">
+                    <button id="exportPdfBtn" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                        Export PDF
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section Progress Header -->
+        <div class="section-progress" id="sectionProgress">
+            <div class="progress-header">
+                <h2 id="currentSectionTitle">PLC/HMI Program Editing</h2>
+                <div class="progress-info">
+                    <span id="progressText">0 of 8 completed</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Project Information -->
+            <div class="project-info-card">
+                <h2>Project Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="projectName">Project Name</label>
+                        <input type="text" id="projectName" placeholder="Enter project name">
+                    </div>
+                    <div class="form-group">
+                        <label for="boilerModel">Boiler Model</label>
+                        <input type="text" id="boilerModel" placeholder="Enter boiler model">
+                    </div>
+                    <div class="form-group">
+                        <label for="technicianName">Technician Name</label>
+                        <input type="text" id="technicianName" placeholder="Enter technician name">
+                    </div>
+                    <div class="form-group">
+                        <label for="commissioningDate">Commissioning Date</label>
+                        <input type="date" id="commissioningDate">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="section-tabs">
+                <button class="tab-btn active" data-section="plc-hmi">PLC/HMI</button>
+                <button class="tab-btn" data-section="io-termination">I/O Termination</button>
+                <button class="tab-btn" data-section="vfd-setup">VFD Setup</button>
+                <button class="tab-btn" data-section="instrument-loop">Instrument Loop</button>
+                <button class="tab-btn" data-section="simulation">Simulation</button>
+            </div>
+
+            <!-- Checklist Sections -->
+            <div class="checklist-sections">
+                <!-- PLC/HMI Section -->
+                <section class="checklist-section active" id="plc-hmi">
+                    <div class="section-header">
+                        <h2>PLC/HMI Program Editing</h2>
+                        <p>Verify and document all PLC/HMI programming steps</p>
+                    </div>
+                    <div class="checklist-items" id="plc-hmi-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- I/O Termination Section -->
+                <section class="checklist-section" id="io-termination">
+                    <div class="section-header">
+                        <h2>I/O Termination Verification</h2>
+                        <p>Verify and document all input/output terminations</p>
+                    </div>
+                    <div class="checklist-items" id="io-termination-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- VFD Setup Section -->
+                <section class="checklist-section" id="vfd-setup">
+                    <div class="section-header">
+                        <h2>VFD Parameter Setup</h2>
+                        <p>Configure and verify all Variable Frequency Drive parameters</p>
+                    </div>
+                    <div class="checklist-items" id="vfd-setup-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Instrument Loop Section -->
+                <section class="checklist-section" id="instrument-loop">
+                    <div class="section-header">
+                        <h2>Instrument Loop Check</h2>
+                        <p>Verify all instrument loops and calibration procedures</p>
+                    </div>
+                    <div class="checklist-items" id="instrument-loop-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Simulation Section -->
+                <section class="checklist-section" id="simulation">
+                    <div class="section-header">
+                        <h2>Simulation & FAT/SAT Procedures</h2>
+                        <p>Execute and document simulation and testing procedures</p>
+                    </div>
+                    <div class="checklist-items" id="simulation-items">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Photo Upload Modal -->
+        <div class="modal" id="photoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="photoModalTitle">Upload Photo</h3>
+                    <button class="modal-close" id="closePhotoModal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="photo-upload-area" id="photoUploadArea">
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21,15 16,10 5,21"/>
+                            </svg>
+                            <p>Tap to upload or take photo</p>
+                            <input type="file" id="photoInput" accept="image/*" capture="camera">
+                        </div>
+                        <div class="photo-preview" id="photoPreview" style="display: none;">
+                            <img id="previewImage" src="" alt="Preview">
+                            <button class="remove-photo" id="removePhoto">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"/>
+                                    <line x1="6" y1="6" x2="18" y2="18"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelPhotoUpload">Cancel</button>
+                    <button class="btn-primary" id="confirmPhotoUpload" disabled>Confirm & Attach</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- E-Signature Modal -->
+        <div class="modal" id="signatureModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Digital Signature</h3>
+                    <button class="modal-close" id="closeSignatureModal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Please sign to confirm completion of this task:</p>
+                    <h4 id="signatureTaskTitle" class="signature-task-title">Task Name</h4>
+                    <div class="signature-canvas-container">
+                        <canvas id="signatureCanvas" width="300" height="150"></canvas>
+                        <div class="signature-placeholder" id="signaturePlaceholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M12 19l-7-7 3-3 4 4-7 7z"/>
+                                <path d="M18 6l-1.5-1.5L14 6l-2-2L9 6l-1.5 1.5L5 6v14h14l-1.5-1.5L20 17l-2 2z"/>
+                            </svg>
+                            <p>Sign here</p>
+                        </div>
+                    </div>
+                    <div class="signature-controls">
+                        <button class="btn-secondary" id="clearSignature">Clear</button>
+                        <input type="text" id="signatureName" placeholder="Type your full name" class="signature-name-input">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelSignature">Cancel</button>
+                    <button class="btn-primary" id="confirmSignature" disabled>Confirm Signature</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Notes Modal -->
+        <div class="modal" id="notesModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Add Notes</h3>
+                    <button class="modal-close" id="closeNotesModal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h4 id="notesTaskTitle" class="notes-task-title">Task Name</h4>
+                    <textarea id="taskNotes" placeholder="Add any additional notes or observations..." rows="6"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancelNotes">Cancel</button>
+                    <button class="btn-primary" id="confirmNotes">Save Notes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
